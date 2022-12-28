@@ -36,12 +36,14 @@ public class CProyecto {
     SProyecto sProyecto;
     
     @GetMapping("/lista")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<List<Proyecto>> list() {
         List<Proyecto> list = sProyecto.list();
         return new ResponseEntity(list, HttpStatus.OK);
     }
     
      @GetMapping("/detail/{id}")
+     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Proyecto> getById(@PathVariable("id") int id){
         if(!sProyecto.existsById(id))
             return new ResponseEntity(new Mensaje("no existe"), HttpStatus.BAD_REQUEST);
@@ -50,6 +52,7 @@ public class CProyecto {
     }
 
     @DeleteMapping("/delete/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
       if (!sProyecto.existsById(id)) {
             return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.BAD_REQUEST);
@@ -60,6 +63,7 @@ public class CProyecto {
     }
     
     @PostMapping("/create")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> create(@RequestBody DtoProyecto dtopro) {
         if (StringUtils.isBlank(dtopro.getNombreP())) {
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -77,6 +81,7 @@ public class CProyecto {
     }
     
     @PutMapping("/update/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoProyecto dtopro) {
         if (!sProyecto.existsById(id)) {
             return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.NOT_FOUND);

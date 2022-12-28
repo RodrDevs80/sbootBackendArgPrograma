@@ -37,20 +37,23 @@ public class CEducacion {
     SEducacion sEducacion;
 
     @GetMapping("/lista")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<List<Educacion>> list() {
         List<Educacion> list = sEducacion.list();
         return new ResponseEntity(list, HttpStatus.OK);
     }
     
      @GetMapping("/detail/{id}")
+     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Educacion> getById(@PathVariable("id") int id){
         if(!sEducacion.existsById(id))
             return new ResponseEntity(new Mensaje("no existe"), HttpStatus.BAD_REQUEST);
         Educacion educacion = sEducacion.getOne(id).get();
         return new ResponseEntity(educacion, HttpStatus.OK);
     }
-
+    
     @DeleteMapping("/delete/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
       if (!sEducacion.existsById(id)) {
             return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.BAD_REQUEST);
@@ -61,6 +64,7 @@ public class CEducacion {
     }
     
     @PostMapping("/create")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> create(@RequestBody DtoEducacion dtoedu) {
         if (StringUtils.isBlank(dtoedu.getNombreE())) {
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -78,6 +82,7 @@ public class CEducacion {
     }
     
     @PutMapping("/update/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoEducacion dtoedu) {
         if (!sEducacion.existsById(id)) {
             return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.NOT_FOUND);

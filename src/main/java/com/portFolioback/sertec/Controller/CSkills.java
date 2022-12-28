@@ -36,12 +36,14 @@ public class CSkills {
     SSkills sSkills;
     
     @GetMapping("/lista")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<List<Skills>> list() {
         List<Skills> list = sSkills.list();
         return new ResponseEntity(list, HttpStatus.OK);
     }
     
      @GetMapping("/detail/{id}")
+     @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Skills> getById(@PathVariable("id") int id){
         if(!sSkills.existsById(id))
             return new ResponseEntity(new Mensaje("no existe"), HttpStatus.BAD_REQUEST);
@@ -50,6 +52,7 @@ public class CSkills {
     }
 
     @DeleteMapping("/delete/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
       if (!sSkills.existsById(id)) {
             return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.BAD_REQUEST);
@@ -60,6 +63,7 @@ public class CSkills {
     }
     
     @PostMapping("/create")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> create(@RequestBody DtoSkills dtoskills) {
         if (StringUtils.isBlank(dtoskills.getNombreS())) {
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -77,6 +81,7 @@ public class CSkills {
     }
     
     @PutMapping("/update/{id}")
+    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoSkills dtoskills) {
         if (!sSkills.existsById(id)) {
             return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.NOT_FOUND);
