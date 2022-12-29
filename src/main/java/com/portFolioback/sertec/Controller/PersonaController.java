@@ -11,7 +11,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,19 +22,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/personas")
-@CrossOrigin(origins = "http://localhost:4200")
 public class PersonaController {
     @Autowired ImpPersonaService impPersonaService;
     
    @GetMapping("/lista")
-   @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<List<Persona>> List() {
         List<Persona> list = impPersonaService.List();
         return new ResponseEntity(list, HttpStatus.OK);
     }
     
     @GetMapping("/detail/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<Persona> getById(@PathVariable("id") int id){
         if(!impPersonaService.existsById(id))
             return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
@@ -44,7 +40,6 @@ public class PersonaController {
     }
 
     @PostMapping("/create")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> create(@RequestBody DtoPersona dtoper) {
         if (StringUtils.isBlank(dtoper.getNombre())) {
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -62,7 +57,6 @@ public class PersonaController {
     }
 
     @PutMapping("/update/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoPersona dtoper) {
         if (!impPersonaService.existsById(id)) {
             return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.BAD_REQUEST);
@@ -89,7 +83,6 @@ public class PersonaController {
     }
     
     @DeleteMapping("/delete/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
 
         if (!impPersonaService.existsById(id)) {

@@ -14,7 +14,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,40 +29,37 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/proyectos")
-@CrossOrigin(origins = "http://localhost:4200")
 public class CProyecto {
+
     @Autowired
     SProyecto sProyecto;
-    
+
     @GetMapping("/lista")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<List<Proyecto>> list() {
         List<Proyecto> list = sProyecto.list();
         return new ResponseEntity(list, HttpStatus.OK);
     }
-    
-     @GetMapping("/detail/{id}")
-     @CrossOrigin(origins = "http://localhost:4200")
-    public ResponseEntity<Proyecto> getById(@PathVariable("id") int id){
-        if(!sProyecto.existsById(id))
+
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<Proyecto> getById(@PathVariable("id") int id) {
+        if (!sProyecto.existsById(id)) {
             return new ResponseEntity(new Mensaje("no existe"), HttpStatus.BAD_REQUEST);
+        }
         Proyecto proyecto = sProyecto.getOne(id).get();
         return new ResponseEntity(proyecto, HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
-      if (!sProyecto.existsById(id)) {
+        if (!sProyecto.existsById(id)) {
             return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.BAD_REQUEST);
         }
 
         sProyecto.delete(id);
         return new ResponseEntity(new Mensaje("Se elimino correctamente"), HttpStatus.OK);
     }
-    
+
     @PostMapping("/create")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> create(@RequestBody DtoProyecto dtopro) {
         if (StringUtils.isBlank(dtopro.getNombreP())) {
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
@@ -79,9 +75,8 @@ public class CProyecto {
 
         return new ResponseEntity(new Mensaje("Se creo correctamente"), HttpStatus.OK);
     }
-    
+
     @PutMapping("/update/{id}")
-    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody DtoProyecto dtopro) {
         if (!sProyecto.existsById(id)) {
             return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.NOT_FOUND);
@@ -91,7 +86,7 @@ public class CProyecto {
                 .get().getId() != id) {
             return new ResponseEntity(new Mensaje("Ese proyecto ya existe"), HttpStatus.BAD_REQUEST);
         }
-        
+
         if (StringUtils.isBlank(dtopro.getNombreP())) {
             return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
         }
